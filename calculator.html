@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+    *{
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  font-family: sans-serif;
+}
+
+.calculator{
+  width: 350px;
+  height: 490px;
+  background: #fff;
+  align-items: center;
+  justify-content: center;
+  margin: 66px 0 5px 66px;
+  border: 3px solid black;
+  border-radius: 10px;
+  
+}
+
+.text{
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#display_{
+  width:310px;
+  height: auto;
+  margin-top: 10px;
+  margin-left: 18px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  outline: none;
+  border: 2px solid black;
+  border-radius: 10px;
+  background: #fff;
+}
+#history,
+#output{
+  width: 268px;
+  height: 38px;
+  margin-left:21px;
+  margin-top: .5px;
+  background: #fff;
+  color: black;
+  outline: none;
+  border: none;
+  border-radius:15px;
+  font-size: 35px;
+  font-weight: bold;
+  text-align: right;
+  padding-top: 12px;
+}
+#history{
+  font-size: 20px;
+  color:#434744;
+}
+.operator,
+.number{
+  width: 74px;
+  height: 51px;
+  position: relative;
+  align-items: center;
+  top: 20px;
+  margin-left: 5px;
+  left: 8px;
+  font-size: 19px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius:10px;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  color:black;
+}
+.keys{
+  margin-top: 5px;
+}
+.line{
+  position: relative;
+  height:.5px;
+  margin-top:27px;
+  width: 300px;
+  left: 23px;
+  background:black;
+  border: none;
+}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="calculator">
+      <h4 class="text">Vishnu</h4>
+      <div id="display_">
+        <p id="history"></p>
+        <p id="output"></p>
+      </div>
+      <hr class="line" />
+      <div class="keys">
+        <button class="operator" id="clear">Ac</button>
+        <button class="operator" id="del">Del</button>
+      </div>
+      <div class="keys">
+        <button class="number" id="7">7</button>
+        <button class="number" id="8">8</button>
+        <button class="number" id="9">9</button>
+        <button class="operator" id="/">&#247;</button>
+      </div>
+      <div class="keys">
+        <button class="number" id="4">4</button>
+        <button class="number" id="5">5</button>
+        <button class="number" id="6">6</button>
+        <button class="operator" id="*">&times;</button>
+      </div>
+      <div class="keys">
+        <button class="number" id="1">1</button>
+        <button class="number" id="2">2</button>
+        <button class="number" id="3">3</button>
+        <button class="operator" id="-">-</button>
+      </div>
+      <div class="keys">
+        <button class="operator" id=".">.</button>
+        <button class="number" id="0">0</button>
+        <button class="operator" id="=">=</button>
+        <button class="operator" id="+">+</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function getHistory() {
+  return document.getElementById("history").innerText;
+}
+
+function printHistory(num) {
+  document.getElementById("history").innerText = num;
+}
+
+function getOutput() {
+  return document.getElementById("output").innerText;
+}
+
+function printOutput(num) {
+  if (num == "") {
+    document.getElementById("output").innerText = num;
+  }
+  else {
+    document.getElementById("output").innerText = getFormattedNumber(num);
+  }
+}
+
+function getFormattedNumber(num) {
+  if (num == "-") {
+    return "";
+  }
+  var n = Number(num);
+  var value = n.toLocaleString("en");
+  return value;
+}
+
+function reversNumberFormat(num) {
+  return Number(num.replace(/,/g, ''));
+}
+var operator = document.getElementsByClassName("operator");
+for (var i = 0; i < operator.length; i++) {
+  operator[i].addEventListener('click', function() {
+    if(this.id=="clear"){
+      printOutput('');
+      printHistory('');
+    }
+    else if(this.id=="del"){
+      var output=reversNumberFormat(getOutput()).toString();
+      if(output){
+        output=output.substr(0,output.length-1);
+        printOutput(output);
+      }
+    }
+    else{
+      var output= getOutput();
+      var history=getHistory();
+      if(output!=""){
+        output=reversNumberFormat(output);
+        history=history+output;
+        if(this.id=="="){
+          var result=eval(history);
+          printOutput(result);
+          printHistory("");
+        }
+        else{
+          history=history+this.id;
+          printOutput("");
+          printHistory(history);
+        }
+      }
+    }
+  });
+}
+var number = document.getElementsByClassName("number");
+for (var i = 0; i < number.length; i++) {
+  number[i].addEventListener('click', function() {
+    var output = reversNumberFormat(getOutput());
+    if (output != NaN) {
+      output = output + this.id;
+      printOutput(output);
+    }
+  });
+}
+  </script>
+</body>
+
+</html>

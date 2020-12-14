@@ -172,6 +172,13 @@ function errorNumber() {
   output.style.fontSize="35px"
 }
 
+function reverseStyle(){
+  var output=document.getElementById("output");
+  output.style.color="black";
+  output.style.textAlign="right";
+  output.style.fontSize="35px";
+}
+
 function getFormattedNumber(num) {
   if (num == "-") {
     return "";
@@ -190,6 +197,7 @@ for (var i = 0; i < operator.length; i++) {
     if(this.id=="clear"){
       printOutput('');
       printHistory('');
+      reverseStyle();
     }
     else if(this.id=="del"){
       var output=reversNumberFormat(getOutput()).toString();
@@ -225,10 +233,10 @@ for (var i = 0; i < number.length; i++) {
     if (output != NaN) {
       output = output + this.id;
       printOutput(output);
-      if(output.length>9){
+      if(output.length>11){
         overFlow();
       }
-      if(output.length>16){
+      if(output.length>15){
         errorNumber();
       }
     }

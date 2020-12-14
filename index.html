@@ -159,6 +159,19 @@ function printOutput(num) {
   }
 }
 
+function overFlow() {
+  var output=document.getElementById("output");
+    output.style.fontSize="25px";
+    return output;
+}
+
+function errorNumber() {
+  var output=document.getElementById("output");
+  output.innerText="Error";
+  output.style.color="red";
+  output.style.fontSize="35px"
+}
+
 function getFormattedNumber(num) {
   if (num == "-") {
     return "";
@@ -212,6 +225,12 @@ for (var i = 0; i < number.length; i++) {
     if (output != NaN) {
       output = output + this.id;
       printOutput(output);
+      if(output.length>9){
+        overFlow();
+      }
+      if(output.length>16){
+        errorNumber();
+      }
     }
   });
 }
